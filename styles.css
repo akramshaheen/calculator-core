@@ -17,7 +17,7 @@ body {
   padding: 35px 25px 35px 25px;
   width: 350px;
   border-radius: 35px;
-  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .display {
@@ -32,6 +32,7 @@ body {
   align-items: center;
   padding: 7px 25px 7px 25px;
   border-radius: 35px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .buttons {
@@ -50,6 +51,11 @@ button {
   border: none;
   color: #5b637f;
   background-color: #d7dcef;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s,
+    filter 0.2s;
 }
 
 [data-type="operator"],
@@ -60,7 +66,7 @@ button {
 
 .clear {
   color: white;
-  background-color: rgb(255, 79, 79);
+  background-color: rgb(229 38 38);
 }
 
 .equals {
@@ -91,4 +97,13 @@ button {
 
 [data-value="+"] {
   background-color: #61dd78;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: none;
 }
