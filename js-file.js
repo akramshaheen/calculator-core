@@ -26,7 +26,18 @@ function power(x, y) {
   return x ** y;
 }
 
-function operate() {}
+function operate(num1, op, num2) {
+  num1 = +num1;
+  num2 = +num2;
+  let result = 0;
+
+  if (op === "+") result = add(num1, num2);
+  if (op === "-") result = subtract(num1, num2);
+  if (op === "x") result = multiply(num1, num2);
+  if (op === "/") result = divide(num1, num2);
+  if (op === "^") result = power(num1, num2);
+  return result;
+}
 
 buttons.addEventListener("click", (e) => {
   if (e.target.dataset.type === "number") {
@@ -64,6 +75,6 @@ buttons.addEventListener("click", (e) => {
   }
 
   if (e.target.matches(".equals")) {
-    operate();
+    display.textContent = operate(num1, op, num2);
   }
 });
