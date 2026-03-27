@@ -70,7 +70,7 @@ button {
 }
 
 .equals {
-  background-color: #1f2b53;
+  background-color: #3d57d1;
 }
 
 .delete {
@@ -96,7 +96,7 @@ button {
 }
 
 [data-value="+"] {
-  background-color: #61dd78;
+  background-color: #01b322;
 }
 
 button:hover {
