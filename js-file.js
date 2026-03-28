@@ -5,6 +5,7 @@ let num1 = "";
 let num2 = "";
 let op = "";
 let result;
+let resultIsShown = false;
 
 function add(x, y) {
   return x + y;
@@ -44,10 +45,14 @@ function operate(num1, op, num2) {
 
 buttons.addEventListener("click", (e) => {
   if (e.target.dataset.type === "number") {
-    // if (result !== undefined) {
-    //   result = undefined;
-    //   display.textContent = "";
-    // }
+    if (resultIsShown) {
+      num1 = "";
+      num2 = "";
+      op = "";
+      result = undefined;
+      display.textContent = "";
+      resultIsShown = false;
+    }
 
     if (num2 === "" && op !== "") display.textContent = "";
 
@@ -69,6 +74,7 @@ buttons.addEventListener("click", (e) => {
     if (num1 === "") return;
 
     op = e.target.dataset.value;
+    resultIsShown = false;
   }
 
   if (e.target.matches(".decimal")) {
@@ -95,5 +101,6 @@ buttons.addEventListener("click", (e) => {
 
   if (e.target.matches(".equals")) {
     display.textContent = operate(num1, op, num2);
+    resultIsShown = true;
   }
 });
