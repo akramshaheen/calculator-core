@@ -39,8 +39,18 @@ function operate(num1, op, num2) {
   return result;
 }
 
+function clear() {
+  num1 = "";
+  num2 = "";
+  op = "";
+  result = undefined;
+  display.textContent = "";
+}
+
 buttons.addEventListener("click", (e) => {
   if (e.target.dataset.type === "number") {
+    if (result !== undefined) clear();
+
     if (num2 === "" && op !== "") display.textContent = "";
 
     display.append(e.target.dataset.value);
@@ -55,6 +65,8 @@ buttons.addEventListener("click", (e) => {
       num1 = display.textContent;
       num2 = "";
     }
+
+    if (num1 === "") return;
 
     op = e.target.dataset.value;
   }
@@ -74,10 +86,7 @@ buttons.addEventListener("click", (e) => {
   }
 
   if (e.target.matches(".clear")) {
-    num1 = "";
-    num2 = "";
-    op = "";
-    display.textContent = "";
+    clear();
   }
 
   if (e.target.matches(".equals")) {
