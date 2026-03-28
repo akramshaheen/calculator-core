@@ -4,6 +4,7 @@ const buttons = document.querySelector(".buttons");
 let num1 = "";
 let num2 = "";
 let op = "";
+let result;
 
 function add(x, y) {
   return x + y;
@@ -29,7 +30,6 @@ function power(x, y) {
 function operate(num1, op, num2) {
   num1 = +num1;
   num2 = +num2;
-  let result = 0;
 
   if (op === "+") result = add(num1, num2);
   if (op === "-") result = subtract(num1, num2);
@@ -50,6 +50,12 @@ buttons.addEventListener("click", (e) => {
   }
 
   if (e.target.dataset.type === "operator") {
+    if (num1 !== "" && num2 !== "") {
+      display.textContent = operate(num1, op, num2);
+      num1 = display.textContent;
+      num2 = "";
+    }
+
     op = e.target.dataset.value;
   }
 
