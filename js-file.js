@@ -36,22 +36,22 @@ function operate(num1, op, num2) {
   if (op === "x") result = multiply(num1, num2);
   if (op === "/") result = divide(num1, num2);
   if (op === "^") result = power(num1, num2);
-  return result;
-}
 
-function clear() {
-  num1 = "";
-  num2 = "";
-  op = "";
-  result = undefined;
-  display.textContent = "";
+  if (result >= 1e14 || result <= -1e14) return result.toExponential(2);
+  if (!Number.isInteger(result)) return Math.floor(result * 1e14) / 1e14;
+  return result;
 }
 
 buttons.addEventListener("click", (e) => {
   if (e.target.dataset.type === "number") {
-    if (result !== undefined) clear();
+    // if (result !== undefined) {
+    //   result = undefined;
+    //   display.textContent = "";
+    // }
 
     if (num2 === "" && op !== "") display.textContent = "";
+
+    if (display.textContent.length > 16) return;
 
     display.append(e.target.dataset.value);
     if (op === "") num1 = display.textContent;
@@ -86,7 +86,11 @@ buttons.addEventListener("click", (e) => {
   }
 
   if (e.target.matches(".clear")) {
-    clear();
+    num1 = "";
+    num2 = "";
+    op = "";
+    result = undefined;
+    display.textContent = "";
   }
 
   if (e.target.matches(".equals")) {
