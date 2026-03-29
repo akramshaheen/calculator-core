@@ -28,6 +28,28 @@ function power(x, y) {
   return x ** y;
 }
 
+function decimal() {
+  const lastChar = display.textContent.slice(-1);
+
+  if (lastChar === "." || display.textContent.includes(".")) return;
+
+  if (lastChar === "") {
+    display.append("0.");
+    if (op !== "") num2 = display.textContent;
+    return;
+  }
+
+  display.append(".");
+}
+
+function clear() {
+  num1 = "";
+  num2 = "";
+  op = "";
+  result = undefined;
+  display.textContent = "";
+}
+
 function operate(num1, op, num2) {
   num1 = +num1;
   num2 = +num2;
@@ -38,6 +60,7 @@ function operate(num1, op, num2) {
   if (op === "/") result = divide(num1, num2);
   if (op === "^") result = power(num1, num2);
 
+  if (result === "ERROR") return "ERROR";
   if (result >= 1e14 || result <= -1e14) return result.toExponential(2);
   if (!Number.isInteger(result)) return Math.floor(result * 1e14) / 1e14;
   return result;
@@ -46,21 +69,18 @@ function operate(num1, op, num2) {
 buttons.addEventListener("click", (e) => {
   if (e.target.dataset.type === "number") {
     if (resultIsShown) {
-      num1 = "";
-      num2 = "";
-      op = "";
-      result = undefined;
-      display.textContent = "";
+      clear();
       resultIsShown = false;
     }
 
     if (num2 === "" && op !== "") display.textContent = "";
 
-    if (display.textContent.length > 16) return;
+    if (display.textContent.length >= 16) return;
+
+    if (e.target.dataset.value === ".") return decimal();
 
     display.append(e.target.dataset.value);
     if (op === "") num1 = display.textContent;
-
     if (op !== "") num2 = display.textContent;
   }
 
@@ -77,26 +97,12 @@ buttons.addEventListener("click", (e) => {
     resultIsShown = false;
   }
 
-  if (e.target.matches(".decimal")) {
-    const lastChar = display.textContent.slice(-1);
-
-    if (lastChar === "." || display.textContent.includes(".")) return;
-
-    if (lastChar === "") return display.append("0.");
-
-    display.append(".");
-  }
-
   if (e.target.matches(".delete")) {
     display.textContent = display.textContent.slice(0, -1);
   }
 
   if (e.target.matches(".clear")) {
-    num1 = "";
-    num2 = "";
-    op = "";
-    result = undefined;
-    display.textContent = "";
+    clear();
   }
 
   if (e.target.matches(".equals")) {
