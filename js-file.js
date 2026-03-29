@@ -48,6 +48,12 @@ function clear() {
   op = "";
   result = undefined;
   display.textContent = "";
+  resultIsShown = false;
+}
+
+function deleteBtn() {
+  if (resultIsShown) return clear();
+  display.textContent = display.textContent.slice(0, -1);
 }
 
 function operate(num1, op, num2) {
@@ -70,7 +76,6 @@ buttons.addEventListener("click", (e) => {
   if (e.target.dataset.type === "number") {
     if (resultIsShown) {
       clear();
-      resultIsShown = false;
     }
 
     if (num2 === "" && op !== "") display.textContent = "";
@@ -98,7 +103,7 @@ buttons.addEventListener("click", (e) => {
   }
 
   if (e.target.matches(".delete")) {
-    display.textContent = display.textContent.slice(0, -1);
+    deleteBtn();
   }
 
   if (e.target.matches(".clear")) {
