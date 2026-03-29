@@ -56,6 +56,21 @@ function deleteBtn() {
   display.textContent = display.textContent.slice(0, -1);
 }
 
+function plusMinus() {
+  if (display.textContent === "" || (num1 !== "" && op !== "" && num2 === ""))
+    return;
+
+  if (display.textContent.includes("-")) {
+    display.textContent = display.textContent.replace("-", "");
+  } else {
+    display.textContent = "-" + display.textContent;
+  }
+
+  if (op === "") num1 = display.textContent;
+  if (op !== "") num2 = display.textContent;
+  if (resultIsShown) result = display.textContent;
+}
+
 function operate(num1, op, num2) {
   num1 = +num1;
   num2 = +num2;
@@ -90,16 +105,21 @@ buttons.addEventListener("click", (e) => {
   }
 
   if (e.target.dataset.type === "operator") {
-    if (num1 !== "" && num2 !== "") {
+    if (num1 !== "" && num2 !== "" && !resultIsShown) {
       display.textContent = operate(num1, op, num2);
       num1 = display.textContent;
       num2 = "";
     }
 
+    if (resultIsShown) {
+      num1 = display.textContent;
+      num2 = "";
+      resultIsShown = false;
+    }
+
     if (num1 === "") return;
 
     op = e.target.dataset.value;
-    resultIsShown = false;
   }
 
   if (e.target.matches(".delete")) {
@@ -110,7 +130,13 @@ buttons.addEventListener("click", (e) => {
     clear();
   }
 
+  if (e.target.matches(".plus-minus")) {
+    plusMinus();
+  }
+
   if (e.target.matches(".equals")) {
+    if (num2 === "") return clear();
+
     display.textContent = operate(num1, op, num2);
     resultIsShown = true;
   }
