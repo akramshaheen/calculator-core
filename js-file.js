@@ -40,13 +40,13 @@ function operate(num1, op, num2) {
 
   if (op === "+") result = add(num1, num2);
   if (op === "-") result = subtract(num1, num2);
-  if (op === "x") result = multiply(num1, num2);
+  if (op === "*") result = multiply(num1, num2);
   if (op === "/") result = divide(num1, num2);
   if (op === "^") result = power(num1, num2);
 
   if (result === "ERROR") return "ERROR";
-  if (result >= 1e14 || result <= -1e14) return result.toExponential(2);
-  if (!Number.isInteger(result)) return Math.floor(result * 1e14) / 1e14;
+  if (result >= 1e13 || result <= -1e13) return result.toExponential(2);
+  if (!Number.isInteger(result)) return Math.floor(result * 1e13) / 1e13;
   return result;
 }
 
@@ -94,7 +94,14 @@ function decimal() {
   return true;
 }
 
-function numberEvent(e) {
+function equals() {
+  if (num2 === "") return;
+
+  display.textContent = operate(num1, op, num2);
+  resultIsShown = true;
+}
+
+function numberEvent(value) {
   if (resultIsShown) {
     clear();
   }
@@ -103,15 +110,16 @@ function numberEvent(e) {
 
   if (display.textContent.length >= 16) return;
 
-  if (e.target.dataset.value === ".") {
-    if (decimal()) return updateNumbers();
+  if (value === ".") {
+    if (decimal()) updateNumbers();
+    return;
   }
 
-  display.append(e.target.dataset.value);
+  display.append(value);
   updateNumbers();
 }
 
-function operatorEvent(e) {
+function operatorEvent(value) {
   if (num1 !== "" && num2 !== "" && !resultIsShown) {
     display.textContent = operate(num1, op, num2);
     num1 = display.textContent;
@@ -126,24 +134,17 @@ function operatorEvent(e) {
 
   if (num1 === "") return;
 
-  op = e.target.dataset.value;
+  op = value;
 }
 
-function equals() {
-  if (num2 === "") return;
-
-  display.textContent = operate(num1, op, num2);
-  resultIsShown = true;
-}
-
-//Event handler
+//Event handlers
 buttons.addEventListener("click", (e) => {
   if (e.target.dataset.type === "number") {
-    numberEvent(e);
+    numberEvent(e.target.dataset.value);
   }
 
   if (e.target.dataset.type === "operator") {
-    operatorEvent(e);
+    operatorEvent(e.target.dataset.value);
   }
 
   if (e.target.matches(".delete")) {
@@ -161,4 +162,15 @@ buttons.addEventListener("click", (e) => {
   if (e.target.matches(".equals")) {
     equals();
   }
+});
+
+document.addEventListener("keydown", (e) => {
+  e.target.blur();
+
+  if ((e.key >= "0" && e.key <= "9") || e.key === ".") numberEvent(e.key);
+  if (["+", "-", "*", "/"].includes(e.key)) operatorEvent(e.key);
+
+  if (e.key === "Backspace") deleteBtn();
+  if (e.key === "c") clear();
+  if (e.key === "Enter") equals();
 });

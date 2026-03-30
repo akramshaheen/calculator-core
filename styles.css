@@ -86,7 +86,7 @@ button {
   background-color: rgb(70, 202, 255);
 }
 
-[data-value="x"] {
+[data-value="*"] {
   background-color: #fec718;
   font-size: 25px;
 }
