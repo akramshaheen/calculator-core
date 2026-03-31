@@ -69,14 +69,13 @@ function plusMinus() {
   if (display.textContent === "" || (num1 !== "" && op !== "" && num2 === ""))
     return;
 
-  if (display.textContent.includes("-")) {
-    display.textContent = display.textContent.replace("-", "");
+  if (display.textContent.charAt(0) === "-") {
+    display.textContent = display.textContent.slice(1);
   } else {
     display.textContent = "-" + display.textContent;
   }
 
-  if (op === "") num1 = display.textContent;
-  if (op !== "") num2 = display.textContent;
+  updateNumbers();
   if (resultIsShown) result = display.textContent;
 }
 
